@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import Welcome from "./components/Welcome/Welcome";
+import DarkMode from "./assets/DarkMode/DarkMode";
 import {
   type Container,
   type ISourceOptions,
@@ -11,6 +13,7 @@ import { loadAll } from "@tsparticles/all";
 
 const App = () => {
   const [init, setInit] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -24,11 +27,40 @@ const App = () => {
     console.log(container);
   };
 
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadAll(engine);
+    }).then(() => {
+      setInit(true);
+    });
+
+    const observer = new MutationObserver(() => {
+      const newTheme = document.documentElement.getAttribute("data-theme");
+      if (newTheme) {
+        setTheme(newTheme);
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const backgroundColor = theme === "dark" ? "#0d1b2a" : "#ffffff";
+  const particleColor = theme === "dark" ? "#e0e1dd" : "#000000";
+
   const options: ISourceOptions = useMemo(
     () => ({
+      fullScreen: {
+        enable: true,
+        zIndex: -1,
+      },
       background: {
         color: {
-          value: "#0d1b2a",
+          value: backgroundColor,
         },
       },
       fpsLimit: 144,
@@ -55,10 +87,10 @@ const App = () => {
       },
       particles: {
         color: {
-          value: "#e0e1dd",
+          value: particleColor,
         },
         links: {
-          color: "#e0e1dd",
+          color: particleColor,
           distance: 150,
           enable: true,
           opacity: 0.2,
@@ -92,22 +124,22 @@ const App = () => {
       },
       detectRetina: true,
     }),
-    [],
+    [backgroundColor, particleColor],
   );
 
-  if (init) {
-    return (
+  return (
+  <>
+  <DarkMode />
+    {init && (
       <Particles
         id="tsparticles"
         particlesLoaded={particlesLoaded}
         options={options}
       />
-    );
-  }
-
-  return <>
-    Hello
-  </>;
+    )}
+    <Welcome />
+  </>
+);
 };
 
 export default App;
