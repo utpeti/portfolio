@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import Welcome from "./components/Welcome/Welcome";
+import Welcome from "./components/Welcome";
+import MenuBar from "./components/MenuBar"
 import DarkMode from "./assets/DarkMode/DarkMode";
 import {
   type Container,
@@ -129,7 +130,6 @@ const App = () => {
 
   return (
   <>
-  <DarkMode />
     {init && (
       <Particles
         id="tsparticles"
@@ -137,6 +137,9 @@ const App = () => {
         options={options}
       />
     )}
+    <MenuBar>
+      <DarkMode />  
+    </MenuBar>
     <Welcome />
   </>
 );
