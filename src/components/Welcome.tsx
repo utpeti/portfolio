@@ -1,6 +1,6 @@
 const Welcome = () => {
   return (
-    <div className="flex flex-col inset-x-0 top-30 justify-center items-center w-full fixed">
+    <div className="flex flex-col inset-x-0 top-30 justify-center items-center w-full absolute">
       <h1 className="text-center">Welcome to my portfolio!</h1>
       <p className="text-center pt-5">
         My name is Korpos Botond, I'm a recent cs graduate.
@@ -10,7 +10,7 @@ const Welcome = () => {
         Feel free to explore and get in touch!
       </p>
     </div>
-  )
+  );
 }
 
 export default Welcome;

@@ -3,6 +3,7 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import Welcome from "./components/Welcome";
 import MenuBar from "./components/MenuBar"
 import DarkMode from "./assets/DarkMode/DarkMode";
+import Technologies from "./components/Technologies";
 import {
   type Container,
   type ISourceOptions,
@@ -141,6 +142,7 @@ const App = () => {
       <DarkMode />  
     </MenuBar>
     <Welcome />
+    <Technologies />
   </>
 );
 };
